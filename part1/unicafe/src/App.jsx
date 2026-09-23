@@ -10,6 +10,8 @@ const App = () => {
   const handleGoodClick = () => setGood(good + 1)
   const handleNeutralClick = () => setNeutral(neutral + 1)
   const handleBadClick = () => setBad(bad + 1)
+  const average = (good * 1 + bad * (-1)) / (good + neutral + bad)
+  const positivePercentage = good * 100/ (good + neutral + bad)
 
   return (
     <>
@@ -21,6 +23,8 @@ const App = () => {
       <p>Good: {good}</p>
       <p>Neutral: {neutral}</p>
       <p>Bad: {bad}</p>
+      <p>Average: {isNaN(average)? "There's no reviews, leave at least one to show the average" : average.toFixed(2)}</p>
+      <p>Positive: {isNaN(positivePercentage)? "There's no reviews, leave at least one to show the positive percentage" : positivePercentage.toFixed(2)}%</p>
     </>
   )
 }
