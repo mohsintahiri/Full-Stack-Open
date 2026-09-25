@@ -1,6 +1,4 @@
-import Header from "./Header"
-import Content from "./Content"
-import Total from "./Total"
+import Course from "./Course"
 
 const App = () => {
   const course = {
@@ -25,7 +23,7 @@ const App = () => {
     ]
   }
 
-  return <Course course={course} />
+  return <Course key={course.id} course={course} />
 }
 
 export default App

@@ -4,7 +4,7 @@ const Content = (props) => {
   return(
     <div>
       {props.course.parts.map(element => (
-        <Part
+        <Part key={element.id}
           name={element.name}
           exercises={element.exercises}
         />

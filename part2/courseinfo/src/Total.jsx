@@ -1,9 +1,3 @@
-const Total = (props) => {
-  let total = 0;
-  props.course.parts.forEach(element => total += element.exercises)
-  return (
-    <p>Number of exercises {total}</p>    
-  )
-}
+const Total = ({course}) => <p>Number of exercises {course.parts.reduce((acumulador, numero) => acumulador + numero.exercises, 0) }</p>    
 
 export default Total
