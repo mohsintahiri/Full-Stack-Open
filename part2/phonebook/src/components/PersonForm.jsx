@@ -4,26 +4,44 @@ import personService from "../services/persons"
 const PersonForm = ({persons, setPersons})=>{
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const handleSubmit = (event =>{
+
+  const handleSubmit = (event) => {
     event.preventDefault()
-    if (newName === "" || newNumber === "") {
-      return window.alert(`Fill in all of the info before adding a new person`)
+
+    if (!newName.trim() || !newNumber.trim()) {
+      return alert('Fill in all of the information before adding a new person!')
     }
-    if (persons.find(person => person.name === newName)) {
-      return window.alert(`${newName} is already added to phonebook`)
+
+    const existingPerson = persons.find(p => p.name === newName)
+
+    if (existingPerson) {
+      const shouldUpdate = confirm(
+        `${newName} is already added to the phonebook, replace the old number with a new one?`
+      )
+      if (!shouldUpdate) return
+
+      personService
+        .updatePerson(existingPerson.id, { ...existingPerson, number: newNumber })
+        .then(returnedPerson => {
+          setPersons(persons.map(p => p.id === returnedPerson.id ? returnedPerson : p))
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          alert(`${existingPerson.name} was already deleted from the server`)
+          setPersons(persons.filter(p => p.id !== existingPerson.id))
+        })
+      return
     }
-    const personObject = {
-      name: newName,
-      number: newNumber,
-    }
+
     personService
-    .create(personObject)
-    .then((returnedNote)=>{ 
-      setPersons(persons.concat(returnedNote))
-      setNewName('')
-      setNewNumber('')
-    })
-  })
+      .createPerson({ name: newName, number: newNumber })
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+  }
 
   const handleNameChange = event => setNewName(event.target.value)
   const handleNumberChange = event => setNewNumber(event.target.value)
