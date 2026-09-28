@@ -6,7 +6,7 @@ import personService from './services/persons'
 import Notification from './components/Notification'
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [persons, setPersons] = useState(null)
   const [newFilter, setNewFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState('')
   const [notificationType, setNotificationType] = useState('')
@@ -18,6 +18,10 @@ const App = () => {
       setPersons(initialPersons)
     })
   }, [])
+
+  if(!persons){
+    return
+  }
   
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
 
