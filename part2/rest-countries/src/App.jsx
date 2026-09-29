@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import countryService from "./services/countries"
 import Weather from "./component/Weather"
+import Country from "./component/Country"
 
 const App = ()=>{
   const [allCountries, setAllCountries] = useState([])
@@ -55,21 +56,8 @@ const App = ()=>{
       )}
 
       {matches.length === 1 && (
-        <div>
-          <h1>{matches[0].name.common}</h1>
-          <p>Capital {matches[0].capital}</p>
-          <p>Area {matches[0].area}</p>
-          <h2>Languages</h2>
-          <ul>
-            {Object.values(matches[0].languages || {}).map((value, index)=>(
-              <li key={index}>{value}</li>
-            ))}
-          </ul>
-          <img src={matches[0].flags.svg} alt={matches[0].flags.alt} height={200}/>
-          <Weather capital={matches[0].capital}/>
-        </div>
+        <Country country={matches[0]}/>
       )}
-
       {search.trim() !== "" && matches.length === 0 && (
         <p>No matches found</p>
       )}
