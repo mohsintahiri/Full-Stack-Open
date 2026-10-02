@@ -54,6 +54,34 @@ app.delete('/api/persons/:id', (request, response)=>{
   response.status(204).end()
 })
 
+const generateId = () => {
+  return Math.floor(Math.random() * (999 - 1) + 1)
+}
+
+app.post('/api/persons', (request, response)=>{
+  const body = request.body
+
+  if(!body.name || !body.number){
+    return response.status(404).json({
+      error: "name or number missing"
+    })
+  }
+
+  if(persons.find(p => p.name === body.name)){
+    return response.status(404).json({
+      error: "name already in the phonebook"
+    })
+  }
+
+  const person = { 
+    "id": generateId(),
+    "name": body.name, 
+    "number": body.number
+  }
+
+  response.json(person)
+})
+
 const PORT = 3001
 app.listen(PORT, ()=>{
   console.log(`Server running on port ${PORT}`)
