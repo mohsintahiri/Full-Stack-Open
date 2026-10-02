@@ -26,10 +26,6 @@ let persons = [
 
 app.use(express.json())
 
-app.get('/', (request, response)=>{
-  response.send("Hello world!")
-})
-
 app.get('/info', (request, response)=>{
   response.send(
     `<p>Phonebook has info for ${persons.length} persons</p>
@@ -38,6 +34,17 @@ app.get('/info', (request, response)=>{
 
 app.get('/api/persons', (request, response)=>{
   response.json(persons)
+})
+
+app.get('/api/persons/:id', (request, response)=>{
+  const id = request.params.id
+  const person = persons.find(p => p.id === id)
+
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
 })
 
 const PORT = 3001
