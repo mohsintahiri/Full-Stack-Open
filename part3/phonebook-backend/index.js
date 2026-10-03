@@ -1,5 +1,6 @@
 const express = require("express")
 const morgan = require("morgan")
+const cors = require("cors")
 const app = express()
 
 let persons = [
@@ -26,6 +27,7 @@ let persons = [
 ]
 
 app.use(express.json())
+app.use(cors())
 
 morgan.token('body', (request) => {
   return JSON.stringify(request.body)
@@ -62,20 +64,20 @@ app.delete('/api/persons/:id', (request, response)=>{
 })
 
 const generateId = () => {
-  return Math.floor(Math.random() * (999 - 1) + 1)
+  return String(Math.floor(Math.random() * (999 - 1) + 1))
 }
 
 app.post('/api/persons', (request, response)=>{
   const body = request.body
 
   if(!body.name || !body.number){
-    return response.status(404).json({
+    return response.status(400).json({
       error: "name or number missing"
     })
   }
 
   if(persons.find(p => p.name === body.name)){
-    return response.status(404).json({
+    return response.status(400).json({
       error: "name already in the phonebook"
     })
   }
