@@ -49,26 +49,14 @@ app.get('/api/persons', (request, response)=>{
 })
 
 app.get('/api/persons/:id', (request, response)=>{
-  const id = request.params.id
-  const person = persons.find(p => p.id === id)
-
-  if (person) {
+  Person.findById(request.params.id).then(person => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 app.delete('/api/persons/:id', (request, response)=>{
-  const id = request.params.id
-  persons = persons.filter(p => p.id !== id)
-
-  response.status(204).end()
+  Person.findByIdAndDelete(request.params.id).then(person => response.status(204).end())
 })
-
-const generateId = () => {
-  return String(Math.floor(Math.random() * (999 - 1) + 1))
-}
 
 app.post('/api/persons', (request, response)=>{
   const body = request.body
@@ -85,13 +73,13 @@ app.post('/api/persons', (request, response)=>{
     })
   }
 
-  const person = { 
-    "id": generateId(),
+  const person = new Person({ 
     "name": body.name, 
     "number": body.number
-  }
-  persons = persons.concat(person)
-  response.json(person)
+  })
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 const PORT = process.env.PORT
