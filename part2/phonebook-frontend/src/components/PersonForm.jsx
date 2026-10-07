@@ -11,7 +11,7 @@ const PersonForm = ({persons, setPersons, setNotificationMessage, setNotificatio
     if (!newName.trim() || !newNumber.trim()) {
       setNotificationMessage(`Fill in all of the information before adding a new person!`)
       setNotificationType('informationType')
-      setTimeout(() => {
+      return setTimeout(() => {
         setNotificationMessage(null)
         setNotificationType('null')
       }, 5000)
@@ -62,6 +62,9 @@ const PersonForm = ({persons, setPersons, setNotificationMessage, setNotificatio
             setNotificationMessage(null)
             setNotificationType('null')
           }, 5000)
+      })
+      .catch(error =>{
+        setNotificationMessage(error.response.data.error)
       })
   }
 
