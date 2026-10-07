@@ -39,9 +39,8 @@ const PersonForm = ({persons, setPersons, setNotificationMessage, setNotificatio
           }, 5000)
         })
         .catch(error => {
-          setPersons(persons.filter(p => p.id !== existingPerson.id))
-          setNotificationMessage(`${existingPerson.name} was already deleted from the server`)
-          setNotificationType('errorType')
+          setNotificationMessage(error.response.data.error)
+          setNotificationType("errorType")
           setTimeout(() => {
             setNotificationMessage(null)
             setNotificationType('null')
@@ -65,6 +64,11 @@ const PersonForm = ({persons, setPersons, setNotificationMessage, setNotificatio
       })
       .catch(error =>{
         setNotificationMessage(error.response.data.error)
+        setNotificationType("errorType")
+        setTimeout(() => {
+            setNotificationMessage(null)
+            setNotificationType('null')
+          }, 5000)
       })
   }
 

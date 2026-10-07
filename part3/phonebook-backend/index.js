@@ -77,9 +77,11 @@ app.put('/api/persons/:id', (request, response, next) => {
       person.name = name
       person.number = number
       
-      return person.save().then((updatedPerson) => {
-        response.json(updatedPerson)
-      })
+      return person.save({runValidators: true, context: 'query'})
+        .then((updatedPerson) => {
+          response.json(updatedPerson)
+        })
+        .catch((error) => next(error))
     })
     .catch((error) => next(error))
 })
