@@ -43,8 +43,38 @@ const mostBlogs = (blogs) => {
   return result.topAuthor
 }
 
+const mostLikes = (blogs) => {
+  const result = blogs.reduce(
+    (accumulator, item) => {
+      const author = item.author
+
+      accumulator.counts[author] =
+        (accumulator.counts[author] || 0) + item.likes
+
+      if (accumulator.counts[author] > accumulator.topAuthor.likes) {
+        accumulator.topAuthor = {
+          author: author,
+          likes: accumulator.counts[author]
+        }
+      }
+
+      return accumulator
+    },
+    {
+      counts: {},
+      topAuthor: {
+        author: null,
+        likes: 0
+      }
+    }
+  )
+
+  return result.topAuthor
+}
+
 module.exports = {
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
