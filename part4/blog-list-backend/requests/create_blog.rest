@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs 
+Content-Type: application/json
+
+{
+  "title": "The Vercel Bug Bounty Program is now publicly available",
+  "author": "Caleb An, Talha Tariq",
+  "url": "The Vercel Bug Bounty Program is now publicly available",
+  "likes": 0
+}
