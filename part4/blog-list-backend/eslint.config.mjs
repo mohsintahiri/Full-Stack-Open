@@ -27,6 +27,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/**'],
+    ignores: ['dist/**', 'tests/**', 'utils/list_helper.js'],
   },
 ]
